@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: #000000;
+    font-weight: 300;
+    transition: color 0.3s ease;
+    font-size: 18px;
+}
+
+a:hover{
+    color: #0000006b !important;
+}
+
+body{
+    background-color: #F4F4F9;
+    min-height: 100vh;
+}
+
+button{
+    cursor: pointer;
+}
+
+input{
+    margin-bottom: 5px;
+}
+
+h2{
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+h3{
+    margin-bottom: 5px;
+    font-weight: 450;
+}
+
+h6{
+    font-weight: 500;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 36px;
+    border: 1px solid #e8e8e8;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 16px;
+    padding: 12px;
+    background-color: #add8e6;
+    z-index: 1000;
+    margin-top: 10px;
+}
+
+nav .home-link-logo{
+    font-size: 20px;   
+}
+
+.product-slide-container {
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    width: 60vw;
+    margin-top: 10vh;
+    background-color: #FFFFFF;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.product-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-slide img {
+    width: auto;
+    height: 40vh;
+}
+
+
+.sign-in h2{
+    text-align: center;
+}
+
+.sign-in {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    min-height: 15vh; /* Full viewport height */
+  }
+  
+.sign-in-container {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8%;
+    margin-top: 10vh; /* 10% of the viewport height */
+}
+
+.sign-in-container input{
+    width: 260px;
+    height: 22px;
+    }
+
+a.forgot-password{
+    font-size: 10px;
+}
+
+.bottom-sign-in {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds space between the items */
+}
+
+.bottom-sign-in button,
+.bottom-sign-in p{
+    align-self: center;
+}   
+
+.bottom-sign-in p{
+    margin-top: 5px;
+    font-weight: 200;
+}
+
+.bottom-sign-in button.sign-in-button{
+    height: 20px;
+    width: 150px;
+    margin-bottom: 5px;
+}
+
+.bottom-sign-in button.create-account-button{
+    height: 20px;
+    width: 100px;
+    font-size: 10px;
+}
+
+.products-list-containter {
+    display: flex;
+    flex-wrap: wrap;  /* Allows items to wrap to next line if needed */
+    justify-content: center;  /* Centers items horizontally */
+    gap: 40px;  /* Reduced gap for better spacing */
+    padding: 20px;  /* Added padding for better overall spacing */
+    max-width: 1150px;  /* Set a max-width to prevent stretching on very wide screens */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+}
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;  /* Reduced top margin for better vertical spacing */
+    width: 200px;  /* Set a fixed width for consistent sizing */
+}
+
+.product-container img {
+    height: 15vh;
+    width: auto;  /* Maintains aspect ratio */
+    max-width: 100%;  /* Ensures image doesn't overflow container */
+    object-fit: contain;  /* Ensures entire image is visible */
+}
+
+.product-container h2 {
+    margin: 10px 0;
+    text-align: center;
+    font-size: 1.2rem;  /* Adjust as needed */
+}
+
+.product-info {
+    text-align: center;
+    font-size: 0.9rem;  /* Adjust as needed */
+}
+
+.product-container button.product-list-addtocart-button {
+    position: absolute; 
+    background-color: #007BFF; /* Blue background */
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Makes the button round */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Border shadow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 60px;
+    color: #f0f0f0;
+}
+
+.product-container button.product-list-addtocart-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+    width: 70px;
+    height: 70px;
+}
+
+.my-bag-container{
+    display: flex;
+}
+
+.my-bag-container .cart-container{
+    display: block;
+}
+
+.my-bag-container .cart-container .cart-item{
+    display: flex;
+    margin-top: 10vh;
+    margin-left: 50%;
+}
+
+.my-bag-container .cart-container .cart-item img{
+    width: auto;
+    height: 20vh;
+}
+
+.cart-item .left-side{
+    display: block;
+    margin-bottom: 1px;
+}
+
+.cart-item .right-side{
+    display: block;
+    text-align: center;
+}
+
+.my-bag-container .my-bag-right-side{
+    display: flex;
+}
+
+.my-bag-container .my-bag-right-side .check-out {
+    width: auto;
+    height: 15vh;
+    color: #000000;
+    background-color: #add8e6; /* This will make it a black container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

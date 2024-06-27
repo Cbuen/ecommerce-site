@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scal e=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="../static/scripts/index.js"></script>
+
+    <title>Chris | E-Commerce-Website</title> 
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="/" class="home-link-logo">Buy & Sell</a>
+        </div>
+        <div class="nav-options"> 
+            <input type="text" placeholder="Search..">
+            <button class="ri-search-2-line"></button>
+            <a href="/dashboard">Account</a>
+            <span>|</span>
+            <a href="#">Orders</a>
+            <span>|</span>
+            <a href="/cart" class="ri-shopping-cart-2-line">Cart</a>
+    </nav>
+
+    <div class="my-bag-container">
+        <div class="my-bag-left-side">
+            <div class="cart-container">
+                {% if products %}
+                    {% for product in products %}
+                        <div class="cart-item">
+                            <div class="left-side">
+                                <img src="{{ product['image'] }}" alt="{{ product['title'] }}">
+                            </div>
+                            <div class="right-side">
+                                <h3>{{ product['title'] }}</h3>
+                                <p>Price: ${{ product['price'] }}</p>
+                                <p>Quantity: {{ product['quantity'] }}</p>
+                                <p>Total: ${{ product['price'] * product['quantity'] }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
+        </div>  
+
+        <div class="my-bag-right-side">
+            <div class="check-out">
+                <h1>Check Out</h1>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</body>
+
+
+</html>
