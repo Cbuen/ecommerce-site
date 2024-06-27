@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, url_for, session, jsonify
 from app import app
 import requests
 
+CART_LINK = 'https://fakestoreapi.com/carts/7'
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -25,7 +27,7 @@ def login():
                 session['user_token'] = token
 
                 if 'cart' not in session:
-                    cart_response = requests.get('https://fakestoreapi.com/carts/1')
+                    cart_response = requests.get(CART_LINK)
                     if cart_response.status_code == 200:
                         session['cart'] = cart_response.json()
 
@@ -68,7 +70,7 @@ def print_prodcuts():
     
 @app.route('/cart_data', methods=['GET']) # type: ignore
 def print_cart():
-    response = requests.get('https://fakestoreapi.com/carts/1')
+    response = requests.get(CART_LINK)
 
     if response.status_code == 200:
         carts = response.json()
@@ -92,13 +94,14 @@ def logout():
             return redirect('/')
         
 
-@app.route('/products-searched')
+@app.route('/products')
 def products():
     try:
         response = requests.get('https://fakestoreapi.com/products')
         if response.status_code == 200:
             products = response.json()
             return render_template('products-searched.html', products=products)
+        
         else:
             return "Failed to fetch products", 500
     except requests.RequestException as e:
@@ -115,7 +118,7 @@ def load_cart():
         return redirect(url_for('login'))
     
     try:
-        response = requests.get('https://fakestoreapi.com/carts/1')
+        response = requests.get(CART_LINK)
         if response.status_code == 200:
             cart = response.json()
             cart_products = load_cart_products(cart)
@@ -144,7 +147,6 @@ def load_cart_products(cart):
     except requests.RequestException as e:
         print(f"Error fetching products: {e}")
         return []
-    
 
 
 if __name__ == '__main__':

@@ -17,6 +17,8 @@
             <a href="/" class="home-link-logo">Buy & Sell</a>
         </div>
         <div class="nav-options"> 
+            <span>|</span>
+            <a href="/products">Products</a>
             <input type="text" placeholder="Search..">
             <button class="ri-search-2-line"></button>
             <a href="/dashboard">Account</a>
@@ -48,10 +50,40 @@
                 {% endif %}
             </div>
         </div>  
-
         <div class="my-bag-right-side">
             <div class="check-out">
                 <h1>Check Out</h1>
+                <div class="check-out-scroll">
+                    {% if products %}
+                        <ul class="scroll-item-list">
+                            {% for product in products %}
+                                <li class="scroll-item">
+                                    <p class="product-title">
+                                        {{ product['title'] }}
+                                        <span>${{ product['price'] * product['quantity'] }}</span>
+                                        <span>Quantity: {{ product['quantity'] }}</span>
+                                    </p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Your cart is empty</p>
+                    {% endif %}
+                </div>
+
+                <div class="total-cost">
+                    {% if products %}
+                        {% set total = namespace(value=0) %}
+                        {% for product in products %}
+                            {% set total.value = total.value + (product['price'] * product['quantity']) %}
+                        {% endfor %}
+                        <h3>CART TOTAL:</h3>
+                        <p>${{ "%.2f"|format(total.value) }}</p>
+                    {% endif %}
+                </div>
+
+                <button></button>
+
             </div>
         </div>
 

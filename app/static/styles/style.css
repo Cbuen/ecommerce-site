@@ -247,9 +247,52 @@ a.forgot-password{
 }
 
 .my-bag-container .my-bag-right-side .check-out {
-    width: auto;
-    height: 15vh;
+    margin-left: 21vw;
+    margin-top: 20vh;
+    width: 50vh;
+    height: 50vh;
     color: #000000;
     background-color: #add8e6; /* This will make it a black container */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.my-bag-container .my-bag-right-side .check-out-scroll{
+    margin-top: 30px;
+    background-color: white;
+    text-align: left;
+    height: 60%;
+}
+
+.scroll-item-list{
+    list-style: none;
+}
+
+.scroll-item-list li.scroll-item{
+    margin-bottom: 15px;
+}
+
+.check-out-scroll {
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto;
+    border: 1px solid #ccc; /* Optional: adds a border around the scroll area */
+    padding: 10px; /* Adds some space inside the scroll container */
+}
+
+.scroll-item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.scroll-item-list li {
+    background-color: #f0f0f0; /* Light grey background for each item */
+    margin-bottom: 15px;
+    padding: 15px; /* Adds space inside each item */
+    border-radius: 5px; /* Optional: rounds the corners of each item */
+}
+
+.scroll-item-list li p {
+    margin: 0;
+    padding-top: 10px; /* Moves the text down within each item */
 }
