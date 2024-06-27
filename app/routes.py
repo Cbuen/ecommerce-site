@@ -27,7 +27,7 @@ def login():
                 if 'cart' not in session:
                     cart_response = requests.get('https://fakestoreapi.com/carts/1')
                     if cart_response.status_code == 200:
-                        session['cart'] = cart_response.json
+                        session['cart'] = cart_response.json()
 
 
                 return redirect(url_for('dashboard'))
