@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scal e=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
     <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../static/scripts/index.js"></script>
 
     <title>Chris | E-Commerce-Website</title> 
@@ -19,14 +20,19 @@
         <div class="nav-options"> 
             <span>|</span>
             <a href="/products">Products</a>
-            <input type="text" placeholder="Search..">
-            <button class="ri-search-2-line"></button>
+            
+            <form action="{{ url_for('products') }}" method="GET" class="search-form">
+                <input type="text" name="search" placeholder="Search..">
+                <button type="submit" class="ri-search-2-line"></button>
+            </form>
+            
             <a href="/dashboard">Account</a>
             <span>|</span>
             <a href="#">Orders</a>
             <span>|</span>
             <a href="/cart" class="ri-shopping-cart-2-line">Cart</a>
     </nav>
+
 
     <div class="my-bag-container">
         <div class="my-bag-left-side">
@@ -58,6 +64,7 @@
                         <ul class="scroll-item-list">
                             {% for product in products %}
                                 <li class="scroll-item">
+                                    <button class="remove-scroll-item ri-close-circle-fill" data-product-quantity="{{ product.quantity }}" data-product-id="{{ product.id }}"></button>
                                     <p class="product-title">
                                         {{ product['title'] }}
                                         <span>${{ product['price'] * product['quantity'] }}</span>

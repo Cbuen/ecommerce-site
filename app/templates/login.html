@@ -19,8 +19,12 @@
         <div class="nav-options"> 
             <span>|</span>
             <a href="/products">Products</a>
-            <input type="text" placeholder="Search..">
-            <button class="ri-search-2-line"></button>
+            
+            <form action="{{ url_for('products') }}" method="get" class="search-form">
+                <input type="text" name="search" placeholder="Search..">
+                <button type="submit" class="ri-search-2-line"></button>
+            </form>
+            
             <a href="/dashboard">Account</a>
             <span>|</span>
             <a href="#">Orders</a>
@@ -28,11 +32,14 @@
             <a href="/cart" class="ri-shopping-cart-2-line">Cart</a>
     </nav>
 
+
+
     <div class="sign-in">
         <div class="sign-in-container">
 
             <h2>BUY & SELL</h2>
             <h3>Welcome back, please sign in</h3>
+            
             <form method="POST" action="{{ url_for('login') }}">
                 <h6>Email or Username</h6>
                 <input type="text" id="username-email" name="username-email">

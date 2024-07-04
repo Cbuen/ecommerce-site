@@ -1,37 +1,42 @@
-// Image Slider
-const slides = document.querySelectorAll(".slides img");
-let slideIndex = 0;
-
-document.addEventListener("DOMContentLoaded", initializeSlider);
-
-function initializeSlider(){
-    if(slides.length > 0){
-        slides[slideIndex].classList.add("displaySlide");
-        document.getElementById("prevButton").addEventListener("click", prevSlide);
-        document.getElementById("nextButton").addEventListener("click", nextSlide);
-    }
-}
-
-function showSlide(index){
-    if(index >= slides.length){
-        slideIndex = 0;
-    }
-    else if(index < 0){
-        slideIndex = slides.length - 1;
-    }
-
-    slides.forEach(slide => {
-        slide.classList.remove("displaySlide");
+$(document).ready(function() {
+    $('.product-list-addtocart-button').click(function() {
+        var productId = $(this).data('product-id');
+        $.ajax({
+            url: '/products',
+            type: 'POST',
+            data: JSON.stringify({'product_id': productId}),
+            contentType: 'application/json',
+            success: function(response) {
+                alert('Product added to cart successfully!');
+                console.log(this.data);
+            },
+            error: function(error) {
+                console.log(error);
+                alert('Error adding product to cart.');
+            }
+        });
     });
-    slides[slideIndex].classList.add("displaySlide");
-}
+});
 
-function prevSlide(){
-    slideIndex--;
-    showSlide(slideIndex);
-}
 
-function nextSlide(){
-    slideIndex++;
-    showSlide(slideIndex);
-}
+$(document).ready(function() {
+    $('.remove-scroll-item').click(function() {
+        var productId = $(this).data('product-id');
+        var productQuantity = $(this).data('product-quantity')
+        $.ajax({
+            url: '/cart',
+            type: 'POST',
+            data: JSON.stringify({'product_id': productId,
+                'product-quantity': productQuantity
+            }),
+            contentType: 'application/json',
+            success: function() {
+                location.reload()
+            },
+            error: function(error) {
+                console.log(error);
+                alert('Product could not be removed from cart?');
+            }
+        });
+    });
+});

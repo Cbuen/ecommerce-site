@@ -1,8 +1,27 @@
 from flask import render_template, request, redirect, url_for, session, jsonify
 from app import app
 import requests
+import re
 
 CART_LINK = 'https://fakestoreapi.com/carts/7'
+
+def normalize_text(text):
+    # text normalization
+    text_stripped = re.sub(r'[^\w\s]','', text) 
+    return text_stripped.lower()
+
+def calculate_relevance(search_words, product):
+    relevance = 0
+    title = normalize_text(product['title'])
+    description = normalize_text(product['description'])
+
+    for word in search_words:
+        if word in title:
+            relevance +=1
+        if word in description:
+            relevance +=1
+    return relevance
+
 
 @app.route('/')
 def home():
@@ -26,10 +45,11 @@ def login():
                 token = response.json()['token']
                 session['user_token'] = token
 
-                if 'cart' not in session:
-                    cart_response = requests.get(CART_LINK)
-                    if cart_response.status_code == 200:
-                        session['cart'] = cart_response.json()
+                # establishing cart to be used for user throughout their logged in session - clears when they leave since fakestoreapi isnt a real commericalized server
+                cart_response = requests.get(CART_LINK)
+                if 'cart' not in session and cart_response.status_code == 200:
+                    session['cart'] = cart_response.json()
+                    #  ref marking
 
 
                 return redirect(url_for('dashboard'))
@@ -70,13 +90,9 @@ def print_prodcuts():
     
 @app.route('/cart_data', methods=['GET']) # type: ignore
 def print_cart():
-    response = requests.get(CART_LINK)
+    return session['cart']
 
-    if response.status_code == 200:
-        carts = response.json()
-
-        return carts
-    """for dev purposes"""
+"""for dev purposes"""
 
  
 
@@ -94,22 +110,70 @@ def logout():
             return redirect('/')
         
 
-@app.route('/products')
-def products():
-    try:
-        response = requests.get('https://fakestoreapi.com/products')
-        if response.status_code == 200:
-            products = response.json()
-            return render_template('products-searched.html', products=products)
-        
-        else:
-            return "Failed to fetch products", 500
-    except requests.RequestException as e:
-        print(f"Error fetching products: {e}")
-        return "An error occurred while fetching products", 500
-    
 
-@app.route('/cart')
+@app.route('/products', methods=['GET', 'POST'])
+def products():
+    if request.method == 'POST':
+        data = request.json
+        product_id = data.get('product_id')
+        
+        if 'cart' not in session:
+            session['cart'] = {'products': []}
+        
+        # Check if the product is already in the cart
+        product_in_cart = next((item for item in session['cart']['products'] if item['productId'] == product_id), None)
+        
+        if product_in_cart:
+            product_in_cart['quantity'] += 1
+        else:
+            session['cart']['products'].append({'productId': product_id, 'quantity': 1})
+        
+        session.modified = True
+        
+        return jsonify({'success': True, 'message': 'Product added to cart'})
+    
+    elif request.method == 'GET':
+        try:
+            response = requests.get('https://fakestoreapi.com/products')
+            if response.status_code == 200:
+                all_products = response.json()
+
+                search_query = request.args.get('search', '').lower()
+
+                if search_query:
+                    search_words = [normalize_text(word) for word in search_query.split()]
+                    
+                    # Exclusion list for filtering
+                    exclusion_list = ['women'] if 'men' in search_words else []
+
+                    filtered_products = []
+                    for product in all_products:
+                        if any(exclusion in normalize_text(product['title']) or 
+                               exclusion in normalize_text(product['description']) for exclusion in exclusion_list):
+                            continue
+                        
+                        relevance = calculate_relevance(search_words, product)
+                        if relevance > 0:
+                            filtered_products.append((product, relevance))
+
+                    # Sort products by relevance
+                    filtered_products.sort(key=lambda x: x[1], reverse=True)
+                    sorted_products = [product for product, _ in filtered_products]
+
+                    return render_template('products-searched.html', products=sorted_products)
+                
+                else:
+                    return render_template('products-searched.html', products=all_products)
+            else:
+                return "Failed to fetch products", 500
+        except requests.RequestException as e:
+            print(f"Error fetching products: {e}")
+            return "An error occurred while fetching products", 500
+
+    return "Method not allowed", 405
+    
+    
+@app.route('/cart', methods=['GET', 'POST'])
 def load_cart():
 
     # Check if user is logged in
@@ -117,14 +181,33 @@ def load_cart():
         # User is not logged in, redirect to login page
         return redirect(url_for('login'))
     
+    if request.method == 'POST':
+        data = request.json
+        product_id = data.get('product_id')
+
+        # Check if the product is even in the cart
+        product_index = next((index for (index, item) in enumerate(session['cart']['products']) if item['productId'] == product_id), None)
+
+        if product_index is not None:
+            if session['cart']['products'][product_index]['quantity'] > 1:
+                session['cart']['products'][product_index]['quantity'] -= 1
+            else:
+                session['cart']['products'].pop(product_index)
+
+            session.modified = True
+
+            return "True"
+
+
+    
     try:
-        response = requests.get(CART_LINK)
-        if response.status_code == 200:
-            cart = response.json()
-            cart_products = load_cart_products(cart)
-            return render_template('cart.html', cart=cart, products=cart_products)
+        if session['cart']:
+            cart_products = load_cart_products(session['cart'])
+            return render_template('cart.html', products=cart_products)
         else:
-            return "Failed to fetch cart", 500
+            return redirect(url_for('login')) # temp for dev purposes
+        
+        
     except requests.RequestException as e:
         print(f"Error fetching cart: {e}")
         return "An error occurred while fetching cart", 500

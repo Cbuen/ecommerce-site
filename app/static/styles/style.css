@@ -282,7 +282,6 @@ a.forgot-password{
 .scroll-item-list {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .scroll-item-list li {
@@ -295,4 +294,74 @@ a.forgot-password{
 .scroll-item-list li p {
     margin: 0;
     padding-top: 10px; /* Moves the text down within each item */
+}
+
+.scroll-item-list button {
+    margin-bottom: 10px;
+}
+
+.nav-options {
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.search-form input {
+    margin-right: 5px;
+}
+
+.search-form button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.scroll-item {
+    position: relative;
+    padding-right: 40px; /* Increased padding to accommodate the button */
+    margin-bottom: 15px;
+}
+
+.remove-scroll-item {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    left: 90%;
+    transform: translateY(-50%);
+    background-color: #b31c1c;
+    border: none;
+    width: 25px; /* Fixed width */
+    height: 25px; /* Fixed height */
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(161, 157, 157, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 24px; /* Reduced font size */
+    color: #f0f0f0;
+    padding: 0; /* Remove any padding */
+}
+
+.remove-scroll-item:hover {
+    background-color: #ee2b2b;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-item-list {
+    list-style: none;
+    padding: 0; /* Remove default padding */
+}
+
+.check-out-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px; /* Add some padding inside the scroll area */
 }

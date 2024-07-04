@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scal e=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
     <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../static/scripts/index.js"></script>
+    
 
 
     <title>Chris | E-Commerce-Website</title> 
@@ -20,14 +22,19 @@
         <div class="nav-options"> 
             <span>|</span>
             <a href="/products">Products</a>
-            <input type="text" placeholder="Search..">
-            <button class="ri-search-2-line"></button>
+            
+            <form action="{{ url_for('products') }}" method="get" class="search-form">
+                <input type="text" name="search" placeholder="Search..">
+                <button type="submit" class="ri-search-2-line"></button>
+            </form>
+            
             <a href="/dashboard">Account</a>
             <span>|</span>
             <a href="#">Orders</a>
             <span>|</span>
             <a href="/cart" class="ri-shopping-cart-2-line">Cart</a>
     </nav>
+
 
     <div class="products-list-containter">
         {% for product in products %}
@@ -36,9 +43,11 @@
             <h2>{{ product.title }}</h2>
             <p class="product-info">{{ product.description[:100] }}...</p>
             <p class="product-price">${{ product.price }}</p>
+             
             <div class="button">
-                <button class="product-list-addtocart-button ri-add-circle-fill"></button>
+                <button class="product-list-addtocart-button ri-add-circle-fill" data-product-id="{{ product.id }}"></button>
             </div>
+
         </div>
         {% endfor %}   
     </div>
